@@ -21,6 +21,8 @@ namespace TestShop.Controllers
         // GET
         [HttpGet]
         [Route("all")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Product))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult Get()
         {
             return Ok(product.GetProducts().Select(ConvertHelper.ConvertToDto));

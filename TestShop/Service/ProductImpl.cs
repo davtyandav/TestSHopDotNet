@@ -26,7 +26,7 @@ namespace TestShop.Service
         {
             return dataContext.Products.Include(product => product.Model)
                 .ThenInclude(model => model.Brand)
-                .FirstOrDefault(c => c.Id == 1);
+                .FirstOrDefault(c => c.Id == id);
         }
     }
 }

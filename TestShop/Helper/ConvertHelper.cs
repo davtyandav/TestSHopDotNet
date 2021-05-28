@@ -3,7 +3,7 @@ using TestShop.Modules;
 
 namespace TestShop.Helper
 {
-    public  class ConvertHelper
+    public class ConvertHelper
     {
         public static ProductDto ConvertToDto(Product product)
         {

@@ -20,11 +20,11 @@ namespace TestShop
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddEntityFrameworkNpgsql().AddDbContext<DataContext>(opt => opt.UseNpgsql(Configuration.GetConnectionString("ShopWebApiConnection")));
+            services.AddEntityFrameworkNpgsql().AddDbContext<DataContext>(opt =>
+                opt.UseNpgsql(Configuration.GetConnectionString("ShopWebApiConnection")));
 
             services.AddControllers();
             services.AddScoped<IProduct, ProductImpl>();
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -34,12 +34,10 @@ namespace TestShop
             {
                 app.UseDeveloperExceptionPage();
             }
+
             app.UseRouting();
             app.UseAuthorization();
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
     }
 }
