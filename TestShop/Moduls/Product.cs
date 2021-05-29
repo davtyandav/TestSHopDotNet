@@ -1,4 +1,4 @@
-﻿namespace TestShop.Modules
+﻿namespace TestShop.Moduls
 {
     public class Product
     {

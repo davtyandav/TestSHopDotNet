@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TestShop.Modules;
+using TestShop.Moduls;
 
 namespace TestShop
 {

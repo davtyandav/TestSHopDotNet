@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace TestShop.Modules
+namespace TestShop.Moduls
 {
     public class Brand
     {

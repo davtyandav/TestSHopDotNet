@@ -1,33 +1,34 @@
 ﻿using TestShop.Dto;
-using TestShop.Modules;
+using TestShop.Dto.Response;
+using TestShop.Moduls;
 
 namespace TestShop.Helper
 {
-    public class ConvertHelper
+    public static class ConvertHelper
     {
-        public static ProductDto ConvertToDto(Product product)
+        public static ProductResponse Toresponse(this Product product)
         {
-            ProductDto productDto = new ProductDto();
-            productDto.Model = ConvertToModelDto(product.Model);
-            productDto.Category = product.Category.ToString();
-            productDto.Price = product.Price;
-            productDto.Discount = product.Discount;
-            return productDto;
+            ProductResponse productResponse = new ProductResponse();
+            productResponse.Model = product.Model.Toresponse();
+            productResponse.Category = product.Category.ToString();
+            productResponse.Price = product.Price;
+            productResponse.Discount = product.Discount;
+            return productResponse;
         }
 
-        private static ModelDto ConvertToModelDto(Model model)
+        private static ModelResponse Toresponse(this Model model)
         {
-            ModelDto modelDto = new ModelDto();
-            modelDto.Name = model.Name;
-            modelDto.Brand = ConvertToBrandDto(model.Brand);
-            return modelDto;
+            ModelResponse modelResponse = new ModelResponse();
+            modelResponse.Name = model.Name;
+            modelResponse.Brand = model.Brand.Toresponse();
+            return modelResponse;
         }
 
-        private static BrandDto ConvertToBrandDto(Brand brand)
+        private static BrandResponse Toresponse(this Brand brand)
         {
-            BrandDto brandDto = new BrandDto();
-            brandDto.Name = brand.name;
-            return brandDto;
+            BrandResponse brandResponse = new BrandResponse();
+            brandResponse.Name = brand.name;
+            return brandResponse;
         }
     }
 }

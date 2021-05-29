@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using TestShop.Modules;
+using TestShop.Moduls;
 
 namespace TestShop.Service
 {

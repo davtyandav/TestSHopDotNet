@@ -1,8 +1,8 @@
-﻿namespace TestShop.Dto
+﻿namespace TestShop.Dto.Response
 {
-    public class ProductDto
+    public class ProductResponse
     {
-        public virtual ModelDto Model { get; set; }
+        public virtual ModelResponse Model { get; set; }
 
         public int Price { get; set; }
 
