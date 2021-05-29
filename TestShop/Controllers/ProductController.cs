@@ -1,7 +1,8 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using TestShop.Helper;
+using TestShop.Dto.Response;
 using TestShop.Moduls;
 using TestShop.Service;
 
@@ -12,10 +13,12 @@ namespace TestShop.Controllers
     public class ProductController : ControllerBase
     {
         private readonly IProduct _product;
+        private readonly IMapper _mapper;
 
-        public ProductController(IProduct product)
+        public ProductController(IProduct product, IMapper mapper)
         {
             _product = product;
+            _mapper = mapper;
         }
 
         // GET
@@ -25,7 +28,7 @@ namespace TestShop.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult Get()
         {
-            return Ok(_product.GetProducts().Select(pr => pr.Toresponse()));
+            return Ok(_mapper.Map<IEnumerable<ProductResponse>>(_product.GetProducts()));
         }
 
         // GET
@@ -35,7 +38,7 @@ namespace TestShop.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult Get(int id)
         {
-            return Ok(_product.GetProduct(id).Toresponse());
+            return Ok(_mapper.Map<ProductResponse>(_product.GetProduct(id)));
         }
     }
 }
