@@ -7,5 +7,7 @@ namespace TestShop.Service
     {
         IEnumerable<Product> GetProducts();
         Product GetProduct(int id);
+
+        void AddProduct(Product product);
     }
 }

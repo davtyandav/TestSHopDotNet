@@ -10,7 +10,7 @@ namespace TestShop
             Database.EnsureCreated();
         }
         public DbSet<Product> Products { get; set; }
-        public DbSet<Model> Models { get; set; }
+        public DbSet<Category> Categorys { get; set; }
         public DbSet<Brand> Brands { get; set; }
     }
 }

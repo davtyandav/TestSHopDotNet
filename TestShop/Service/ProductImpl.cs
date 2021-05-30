@@ -8,25 +8,33 @@ namespace TestShop.Service
     public class ProductImpl : IProduct
     {
         private readonly DataContext _dataContext;
-
-
+        
         public ProductImpl(DataContext dataContext)
         {
-            this._dataContext = dataContext;
+            _dataContext = dataContext;
         }
 
         public IEnumerable<Product> GetProducts()
         {
             return _dataContext.Products
-                .Include(product => product.Model)
-                .ThenInclude(model => model.Brand);
+                .Include(product => product.Brand)
+                .Include(b => b.Category);
         }
 
         public Product GetProduct(int id)
         {
-            return _dataContext.Products.Include(product => product.Model)
-                .ThenInclude(model => model.Brand)
+            return _dataContext.Products
+                .Include(product => product.Brand)
+                .Include(b => b.Category)
                 .FirstOrDefault(c => c.Id == id);
+        }
+
+        public void AddProduct(Product product)
+        {
+           
+            
+            _dataContext.Products.Add(product);
+            _dataContext.SaveChanges();
         }
     }
 }

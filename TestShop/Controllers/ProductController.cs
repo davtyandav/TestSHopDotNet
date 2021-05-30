@@ -2,6 +2,7 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using TestShop.Dto.Requset;
 using TestShop.Dto.Response;
 using TestShop.Moduls;
 using TestShop.Service;
@@ -24,7 +25,7 @@ namespace TestShop.Controllers
         // GET
         [HttpGet]
         [Route("all")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Product))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ProductResponse))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult Get()
         {
@@ -34,11 +35,21 @@ namespace TestShop.Controllers
         // GET
         [HttpGet]
         [Route("{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Product))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ProductResponse))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult Get(int id)
         {
             return Ok(_mapper.Map<ProductResponse>(_product.GetProduct(id)));
+        }
+
+        // Post
+        [HttpPost]
+        [Route("add")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Product))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public void Add([FromBody] ProductRequset product)
+        {
+            _product.AddProduct(_mapper.Map<Product>(product));
         }
     }
 }

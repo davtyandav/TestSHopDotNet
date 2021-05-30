@@ -21,7 +21,7 @@ namespace TestShop.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Models",
+                name: "Categorys",
                 columns: table => new
                 {
                     ID = table.Column<int>(type: "integer", nullable: false)
@@ -31,11 +31,29 @@ namespace TestShop.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Models", x => x.ID);
+                    table.PrimaryKey("PK_Categorys", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "BrandCategory",
+                columns: table => new
+                {
+                    BrandsID = table.Column<int>(type: "integer", nullable: false),
+                    CategorysID = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BrandCategory", x => new { x.BrandsID, x.CategorysID });
                     table.ForeignKey(
-                        name: "FK_Models_Brands_BrandId",
-                        column: x => x.BrandId,
+                        name: "FK_BrandCategory_Brands_BrandsID",
+                        column: x => x.BrandsID,
                         principalTable: "Brands",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_BrandCategory_Categorys_CategorysID",
+                        column: x => x.CategorysID,
+                        principalTable: "Categorys",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -46,43 +64,58 @@ namespace TestShop.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    ModelId = table.Column<int>(type: "integer", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: true),
+                    BrandId = table.Column<int>(type: "integer", nullable: false),
                     Price = table.Column<int>(type: "integer", nullable: false),
                     Discount = table.Column<int>(type: "integer", nullable: false),
-                    Category = table.Column<int>(type: "integer", nullable: false)
+                    CategoryId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Products", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Products_Models_ModelId",
-                        column: x => x.ModelId,
-                        principalTable: "Models",
+                        name: "FK_Products_Brands_BrandId",
+                        column: x => x.BrandId,
+                        principalTable: "Brands",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Products_Categorys_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "Categorys",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Models_BrandId",
-                table: "Models",
+                name: "IX_BrandCategory_CategorysID",
+                table: "BrandCategory",
+                column: "CategorysID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Products_BrandId",
+                table: "Products",
                 column: "BrandId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Products_ModelId",
+                name: "IX_Products_CategoryId",
                 table: "Products",
-                column: "ModelId");
+                column: "CategoryId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "BrandCategory");
+
+            migrationBuilder.DropTable(
                 name: "Products");
 
             migrationBuilder.DropTable(
-                name: "Models");
+                name: "Brands");
 
             migrationBuilder.DropTable(
-                name: "Brands");
+                name: "Categorys");
         }
     }
 }

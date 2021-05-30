@@ -18,7 +18,22 @@ namespace TestShop.Migrations
                 .HasAnnotation("ProductVersion", "6.0.0-preview.4.21253.1")
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-            modelBuilder.Entity("TestShop.Modules.Brand", b =>
+            modelBuilder.Entity("BrandCategory", b =>
+                {
+                    b.Property<int>("BrandsID")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("CategorysID")
+                        .HasColumnType("integer");
+
+                    b.HasKey("BrandsID", "CategorysID");
+
+                    b.HasIndex("CategorysID");
+
+                    b.ToTable("BrandCategory");
+                });
+
+            modelBuilder.Entity("TestShop.Moduls.Brand", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
@@ -33,7 +48,7 @@ namespace TestShop.Migrations
                     b.ToTable("Brands");
                 });
 
-            modelBuilder.Entity("TestShop.Modules.Model", b =>
+            modelBuilder.Entity("TestShop.Moduls.Category", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
@@ -48,62 +63,77 @@ namespace TestShop.Migrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("BrandId");
-
-                    b.ToTable("Models");
+                    b.ToTable("Categorys");
                 });
 
-            modelBuilder.Entity("TestShop.Modules.Product", b =>
+            modelBuilder.Entity("TestShop.Moduls.Product", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<int>("Category")
+                    b.Property<int>("BrandId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("CategoryId")
                         .HasColumnType("integer");
 
                     b.Property<int>("Discount")
                         .HasColumnType("integer");
 
-                    b.Property<int>("ModelId")
-                        .HasColumnType("integer");
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
 
                     b.Property<int>("Price")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ModelId");
+                    b.HasIndex("BrandId");
+
+                    b.HasIndex("CategoryId");
 
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("TestShop.Modules.Model", b =>
+            modelBuilder.Entity("BrandCategory", b =>
                 {
-                    b.HasOne("TestShop.Modules.Brand", "Brand")
-                        .WithMany("models")
+                    b.HasOne("TestShop.Moduls.Brand", null)
+                        .WithMany()
+                        .HasForeignKey("BrandsID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TestShop.Moduls.Category", null)
+                        .WithMany()
+                        .HasForeignKey("CategorysID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("TestShop.Moduls.Product", b =>
+                {
+                    b.HasOne("TestShop.Moduls.Brand", "Brand")
+                        .WithMany("Products")
                         .HasForeignKey("BrandId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Brand");
-                });
-
-            modelBuilder.Entity("TestShop.Modules.Product", b =>
-                {
-                    b.HasOne("TestShop.Modules.Model", "Model")
+                    b.HasOne("TestShop.Moduls.Category", "Category")
                         .WithMany()
-                        .HasForeignKey("ModelId")
+                        .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Model");
+                    b.Navigation("Brand");
+
+                    b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("TestShop.Modules.Brand", b =>
+            modelBuilder.Entity("TestShop.Moduls.Brand", b =>
                 {
-                    b.Navigation("models");
+                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }

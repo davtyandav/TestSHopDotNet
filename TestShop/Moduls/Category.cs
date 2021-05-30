@@ -1,8 +1,15 @@
-﻿namespace TestShop.Moduls
+﻿using System.Collections;
+using System.Collections.Generic;
+
+namespace TestShop.Moduls
 {
-    public enum Category
+    public class Category
     {
-        tv,
-        phone
+        public int ID { get; set; }
+        public string Name { get; set; }
+
+        public int BrandId { get; set; }
+
+        public virtual List<Brand> Brands{ get; set; }
     }
 }
